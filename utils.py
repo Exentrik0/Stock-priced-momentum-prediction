@@ -68,23 +68,42 @@ def create_dataset(dataset, look_back=20):
 
 from sklearn import metrics
 
-def evaluation_metric(y_test, y_hat):
-    # Calculate MSE, RMSE, MAE, R2
-    MSE = metrics.mean_squared_error(y_test, y_hat)
-    RMSE = MSE**0.5
-    MAE = metrics.mean_absolute_error(y_test, y_hat)
-    R2 = metrics.r2_score(y_test, y_hat)
+from sklearn import metrics
+import numpy as np
 
-    # Calculate accuracy percentage
-    average_actual_value = np.mean(y_test)
-    accuracy = (1 - MAE / average_actual_value) * 100  # Accuracy percentage
+def evaluation_metric(y_train, y_train_pred, y_test, y_test_pred):
+    # Training metrics
+    train_MSE = metrics.mean_squared_error(y_train, y_train_pred)
+    train_RMSE = train_MSE**0.5
+    train_MAE = metrics.mean_absolute_error(y_train, y_train_pred)
+    train_R2 = metrics.r2_score(y_train, y_train_pred)
+    train_avg_actual_value = np.mean(y_train)
+    train_accuracy = (1 - train_MAE / train_avg_actual_value) * 100  # Accuracy percentage
 
-    # Print the metrics
-    print('MSE: %.5f' % MSE)
-    print('RMSE: %.5f' % RMSE)
-    print('MAE: %.5f' % MAE)
-    print('R2: %.5f' % R2)
-    print('Accuracy: %.2f%%' % accuracy)  # Accuracy as percentage
+    # Testing metrics
+    test_MSE = metrics.mean_squared_error(y_test, y_test_pred)
+    test_RMSE = test_MSE**0.5
+    test_MAE = metrics.mean_absolute_error(y_test, y_test_pred)
+    test_R2 = metrics.r2_score(y_test, y_test_pred)
+    test_avg_actual_value = np.mean(y_test)
+    test_accuracy = (1 - test_MAE / test_avg_actual_value) * 100  # Accuracy percentage
+
+    # Print training metrics
+    print("\nTraining Metrics:")
+    print('MSE: %.5f' % train_MSE)
+    print('RMSE: %.5f' % train_RMSE)
+    print('MAE: %.5f' % train_MAE)
+    print('R2: %.5f' % train_R2)
+    print('Accuracy: %.2f%%' % train_accuracy)
+
+    # Print testing metrics
+    print("\nTesting Metrics:")
+    print('MSE: %.5f' % test_MSE)
+    print('RMSE: %.5f' % test_RMSE)
+    print('MAE: %.5f' % test_MAE)
+    print('R2: %.5f' % test_R2)
+    print('Accuracy: %.2f%%' % test_accuracy)
+
 
 
 def GetMAPE(y_hat, y_test):
